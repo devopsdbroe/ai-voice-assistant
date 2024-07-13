@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile
 from fastapi.responses import FileResponse
 from assistant.assistant_service import handle_audio_from_user
 
-controller = APIRouter(prefix="voice-assistant")
+controller = APIRouter(prefix="/voice-assistant")
 
 
 @controller.post("/audio-message", status_code=200)
