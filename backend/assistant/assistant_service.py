@@ -25,7 +25,7 @@ async def handle_audio_from_user(file: bytes) -> str:
     """
     transcoded_user_audio_file_path = __get_transcoded_audio_file_path(file)
     transcript_content_text = convert_audio_to_text(transcoded_user_audio_file_path)
-    text_content = transcript_content_text["text"]
+    text_content = transcript_content_text
     ai_text_reply = handle_get_response_for_user(text_content)
     generated_audio_ai = convert_text_to_audio(ai_text_reply)
     output_audio_local_file_path = persist_binary_file_locally(
