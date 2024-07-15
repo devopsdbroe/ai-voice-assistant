@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
+import ReactLoading from "react-loading";
 
 export interface VoiceRecorderProps {
 	onAudioRecordingComplete: (audioData: Blob) => void;
@@ -11,6 +12,7 @@ const VoiceRecorder = ({ onAudioRecordingComplete }: VoiceRecorderProps) => {
 	const recorderControls = useAudioRecorder();
 	const [micAvailable, setMicAvailable] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	// Check for mic availability
 	useEffect(() => {
@@ -41,13 +43,25 @@ const VoiceRecorder = ({ onAudioRecordingComplete }: VoiceRecorderProps) => {
 		return () => clearInterval(interval);
 	}, [micAvailable]);
 
+	useEffect(() => {
+		const timer = setTimeout(() => setIsLoading(false), 1000);
+		return () => clearTimeout(timer);
+	});
+
 	return (
 		<div>
 			{error && <div style={{ color: "red" }}>{error}</div>}
-			{!error && (
+			{!error && !isLoading && (
 				<AudioRecorder
 					onRecordingComplete={onAudioRecordingComplete}
 					recorderControls={recorderControls}
+				/>
+			)}
+			{isLoading && (
+				<ReactLoading
+					type={"bars"}
+					color={"#4287f5"}
+					width={200}
 				/>
 			)}
 		</div>
