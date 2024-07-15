@@ -14,51 +14,41 @@ const VoiceRecorder = ({ onAudioRecordingComplete }: VoiceRecorderProps) => {
 
 	// Check for mic availability
 	useEffect(() => {
-		navigator.mediaDevices
-			.enumerateDevices()
-			.then((devices) => {
+		const checkMicrophone = async () => {
+			try {
+				const devices = await navigator.mediaDevices.enumerateDevices();
 				const hasMicrophone = devices.some(
 					(device) => device.kind === "audioinput"
 				);
 				setMicAvailable(hasMicrophone);
 
-				if (!hasMicrophone) {
+				if (hasMicrophone && !micAvailable) {
+					// Trigger page reload if a mic is detected and wasn't previously available
+					window.location.reload();
+				} else if (!hasMicrophone) {
 					setError(
-						"No microphone detected. Please connect a microphone and try again."
+						"No Microphone detected. Please connect a microphone and try again."
 					);
 				}
-			})
-			.catch((err) => {
+			} catch (err: any) {
 				setMicAvailable(false);
 				setError("Error accessing media devices: " + err.message);
-			});
-	}, []);
+			}
+		};
 
-	const startRecording = () => {
-		if (micAvailable) {
-			recorderControls.startRecording();
-		} else {
-			setError(
-				"No microphone detected. Please connect a microphone and try again."
-			);
-		}
-	};
+		const interval = setInterval(checkMicrophone, 3000);
+
+		return () => clearInterval(interval);
+	}, [micAvailable]);
 
 	return (
 		<div>
 			{error && <div style={{ color: "red" }}>{error}</div>}
 			{!error && (
-				<>
-					<AudioRecorder
-						onRecordingComplete={onAudioRecordingComplete}
-						recorderControls={recorderControls}
-					/>
-					{recorderControls.isRecording && (
-						<button onClick={recorderControls.stopRecording}>
-							Stop recording
-						</button>
-					)}
-				</>
+				<AudioRecorder
+					onRecordingComplete={onAudioRecordingComplete}
+					recorderControls={recorderControls}
+				/>
 			)}
 		</div>
 	);
