@@ -1,7 +1,7 @@
 "use client";
 
 import VoiceRecorder from "../VoiceRecorder/VoiceRecorder";
-import VoiceAssistantAvatar from "./VoiceAssistantAvatar";
+import VoiceAssistantAvatar from "./VoiceAssistantAvatar/VoiceAssistantAvatar";
 import styles from "./VoiceAssistant.module.css";
 import useVoiceAssistant from "@/hooks/useVoiceAssistant";
 import ReactLoading from "react-loading";
@@ -17,7 +17,7 @@ const VoiceAssistant = () => {
 
 	return (
 		<div className={styles["voice-assistant-component"]}>
-			<VoiceAssistantAvatar />
+			<VoiceAssistantAvatar audioFileUrl={lastAIReplyURL} />
 			<VoiceRecorder onAudioRecordingComplete={handleUserVoiceRecorded} />
 			{isLoading && (
 				<ReactLoading

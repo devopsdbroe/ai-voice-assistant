@@ -5,3 +5,16 @@
 	justify-content: center;
 	gap: 20px;
 }
+
+.voice-assistant-avatar-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50vh;
+	width: 50vh;
+}
+
+.voice-assistant-avatar-canvas {
+	background: transparent;
+	border-radius: 50%;
+}
