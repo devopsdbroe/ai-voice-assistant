@@ -17,4 +17,13 @@
 .voice-assistant-avatar-canvas {
 	background: transparent;
 	border-radius: 50%;
+	z-index: 1;
+}
+
+.voice-assistant-audio-visualizer-canvas {
+	width: 100%;
+	height: 400px;
+	background: gray;
+	position: absolute;
+	z-index: 0;
 }
